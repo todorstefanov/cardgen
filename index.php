@@ -12,7 +12,6 @@
     <main class="card">
         <header class="card__header">
             <span class="eyebrow">TODOR'S CARD NUMBER TOOL</span>
-            <h1>CardGen</h1>
             <p>Enter a BIN, a five-digit PAN, or both to generate a checksum-valid test number for a supported card brand.</p>
         </header>
 
