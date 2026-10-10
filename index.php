@@ -11,9 +11,9 @@
 <body>
     <main class="card">
         <header class="card__header">
-            <span class="eyebrow">CARD NUMBER TOOL</span>
+            <span class="eyebrow">TODOR'S CARD NUMBER TOOL</span>
             <h1>CardGen</h1>
-            <p>Enter a BIN, a five-digit PAN, or both to generate a checksum-valid test number.</p>
+            <p>Enter a BIN, a five-digit PAN, or both to generate a checksum-valid test number for a supported card brand.</p>
         </header>
 
         <div class="form">
@@ -51,9 +51,11 @@
         </div>
 
         <section id="result" class="result" aria-live="polite" hidden>
-            <span class="result__label">Generated 16-digit number</span>
+            <span class="result__label">Generated card number</span>
             <output id="card-number" class="result__number"></output>
+            <button id="copy-number" class="copy-button" type="button" disabled>Copy number</button>
             <p id="result-message" class="result__message"></p>
+            <p id="copy-message" class="copy-message" role="status" aria-live="polite"></p>
         </section>
     </main>
 </body>
