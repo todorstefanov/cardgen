@@ -53,6 +53,11 @@ if (!preg_match('/^\d{14,16}$/', $cardNumber)
 }
 
 $credentials = require __DIR__ . '/credentials.php';
+$remoteAddress = $_SERVER['REMOTE_ADDR'] ?? '';
+$ipAddress = is_string($remoteAddress) ? inet_pton($remoteAddress) : false;
+if ($ipAddress === false) {
+    $ipAddress = null;
+}
 
 try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -65,9 +70,9 @@ try {
     $connection->set_charset('utf8mb4');
 
     $statement = $connection->prepare(
-        'INSERT INTO `cardgen` (`cardnumber`, `BIN`, `PAN`, `brand`, `method`) VALUES (?, ?, ?, ?, ?)'
+        'INSERT INTO `cardgen` (`cardnumber`, `BIN`, `PAN`, `brand`, `method`, `IPaddress`) VALUES (?, ?, ?, ?, ?, ?)'
     );
-    $statement->bind_param('siisi', $cardNumber, $bin, $pan, $brand, $method);
+    $statement->bind_param('siisis', $cardNumber, $bin, $pan, $brand, $method, $ipAddress);
     $statement->execute();
     $statement->close();
     $connection->close();
