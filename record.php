@@ -65,7 +65,7 @@ try {
     $connection->set_charset('utf8mb4');
 
     $statement = $connection->prepare(
-        'INSERT INTO `generated_cards` (`cardnumber`, `BIN`, `PAN`, `brand`, `method`) VALUES (?, ?, ?, ?, ?)'
+        'INSERT INTO `cardgen` (`cardnumber`, `BIN`, `PAN`, `brand`, `method`) VALUES (?, ?, ?, ?, ?)'
     );
     $statement->bind_param('siisi', $cardNumber, $bin, $pan, $brand, $method);
     $statement->execute();
