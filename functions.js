@@ -31,6 +31,38 @@ function clearResult() {
     result.classList.remove("result--error");
 }
 
+function recordCardNumber(number, bin, pan, brand, method) {
+    const request = new XMLHttpRequest();
+    request.open("POST", "record.php", true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onload = () => {
+        let response;
+        try {
+            response = JSON.parse(request.responseText);
+        } catch (error) {
+            console.error("FAIL: Could not confirm card record result; invalid JSON response.", request.status);
+            return;
+        }
+
+        if (request.status >= 200 && request.status < 300 && response?.success === true) {
+            console.log("SUCCESS: Generated card number recorded.");
+            return;
+        }
+
+        console.error("FAIL: Could not record generated card number:", response?.error || request.status);
+    };
+    request.onerror = () => {
+        console.error("FAIL: Could not reach the card record service.");
+    };
+    request.send(JSON.stringify({
+        cardnumber: number,
+        bin: Number(bin),
+        pan: Number(pan),
+        brand: brand.toUpperCase(),
+        method
+    }));
+}
+
 async function copyCardNumber() {
     if (!cardNumber.textContent || copyButton.disabled) {
         return;
@@ -209,6 +241,8 @@ function updateResult() {
     }
 
     setResult(`${brand.name} test number generated. Use test numbers only.`, number);
+    const method = hasCompleteBin ? (hasCompletePan ? 0 : 1) : 2;
+    recordCardNumber(number, hasCompleteBin ? bin : 0, hasCompletePan ? pan : 0, brand.name, method);
 }
 
 binInput.addEventListener("input", () => {
