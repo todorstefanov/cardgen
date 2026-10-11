@@ -43,7 +43,7 @@ $validMethod = ($method === 1 && $validBin && $pan === 0)
     || ($method === 2 && $bin === 0 && $validPan)
     || ($method === 0 && $validBin && $validPan);
 
-if (!preg_match('/^\d{14,16}$/', $cardNumber)
+if (!preg_match('/(*NO_JIT)^\d{14,16}$/', $cardNumber)
     || $bin < 0
     || $pan < 0
     || !$validMethod
